@@ -12,9 +12,24 @@ var db = pgp(connectionString);
 // add query functions
 
 module.exports = {
-  getAllItems: getAllPuppies,
-  getSingleItem: getSinglePuppy,
-  createItem: createPuppy,
-  updateItem: updatePuppy,
-  removeItem: removePuppy
+  getAllItems: getAllItems,
+  getSingleItem: getSingleItem,
+  createItem: createItem,
+  updateItem: updateItem,
+  removeItem: removeItem
 };
+
+function getAllItems(req, res, next) {
+  db.many('select * from unit_of_work')
+    .then(function (data) {
+      res.status(200)
+        .json({
+          status: 'success',
+          data: data,
+          message: 'Retrieved ALL items'
+        });
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+}
